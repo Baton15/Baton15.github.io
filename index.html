@@ -116,6 +116,44 @@
             <p>The Internet has come of age and everything is online. My hairdresser, who always does a perfect job, did not have a website to book a haircut.</p>
             <p>We worked together to create a functional <a class="hover-underline-animation" href="https://vkk.mhr.mybluehost.me/website_91454de2" style="color:rgb(202, 191, 248);" class="hover-underline-animation">Website</a> showing his location, prices and a booking function.</p>
         </section>
+
+        <!--- --->
+        <section class="hidden">
+  <h2>Reverse Shell</h2>
+  <p>
+    Reverse Shells are the act of redirecting the input and output of a shell to a service so 
+    that it can be remotely accessed—a remote shell.
+  </p>
+  <p>This section is intended to provide a brief overview of this topic:</p>
+
+  <div class="read-more-content hidden">
+    <p>Firstly, to perform a basic reverse shell, netcat has to be installed on the attacker’s device.</p>
+
+    <!-- ncat -lvnp 4444 -->
+    <p><strong>Netcat command:</strong></p>
+    <pre id="netcatCommand">ncat -lvnp 4444</pre>
+    <button onclick="copyToClipboard('netcatCommand')">Copy Netcat Command</button>
+    
+    <!-- Text box for attacker (or victim) IP, depending on context -->
+    <p>Enter Attacker IP to generate the PowerShell Reverse Shell:</p>
+    <input type="text" id="attackerIP" placeholder="Enter IP Address" />
+
+    <button onclick="generatePowerShellCommand()">Generate PowerShell Command</button>
+
+    <!-- Generated PowerShell command will appear here -->
+    <p><strong>PowerShell Reverse Shell Command:</strong></p>
+    <pre id="powershellCommand">
+      <!-- This will be populated by generatePowerShellCommand() -->
+    </pre>
+    <button onclick="copyToClipboard('powershellCommand')">Copy PowerShell Command</button>
+    
+  </div>
+
+  <!-- Toggle "Read more" / "Read less" button -->
+  <div class="read-more-btn collapsed" onclick="toggleReadMore(this)"></div>
+</section>
+        <!--- --->
+        
     </div>
     <br>
     <br>
