@@ -41,12 +41,7 @@ function downloadFiles() {
 
 // Beispiel: script.js
 
-function toggleReadMore(button) {
-  const content = button.previousElementSibling;
-  content.classList.toggle('hidden');
-  button.classList.toggle('collapsed');
-  button.classList.toggle('expanded');
-}
+
 
 function copyToClipboard(elementId) {
   const copyText = document.getElementById(elementId).innerText;
